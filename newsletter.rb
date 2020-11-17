@@ -30,7 +30,11 @@ ARTICLES = [
 def calculate_recipients
   # Using the SUBSCRIBERS and UNSUBSCRIBED arrays,
   # write a method that will return an array of only the subscribers who haven't unsubscribed
+  SUBSCRIBERS.select do |sub|
+   !UNSUBSCRIBED.include?(sub)
+  end
 end
+
 
 def first_n_articles(number_of_articles)
   ARTICLES.first(number_of_articles)
@@ -42,10 +46,12 @@ def print_recipients
   # Write a method that uses the output of calculate_recipients
   # and returns a list of emails separated by commas
   # Ex) "abc@email.com, def@email.com, ghi@email.com"
+  puts calculate_recipients.join(", ")
 end
 
 def print_one_article(article)
   # Write a method that will take an article hash
+  puts "#{article[:title]}\n by: #{article[:author]}\n #{article[:text]}\n"
   # and print the title, author and text as a formatted string
   # See the README/sample output for examples
 end
@@ -53,6 +59,9 @@ end
 def print_many_articles(articles)
   # Write a method that will take in an array of article hashes
   # and format each one using the print_one_article method
+  articels.each do |article|
+    print_one_article(article)
+  end
 end
 
 def format_campus_location(campus)
@@ -78,7 +87,7 @@ def print_newsletter(number)
 
   puts "\nBODY:"
   format_subject
-  articles = first_n_articles(number)
+  articles = first_n_articles(number.to_i)
   print_many_articles(articles)
   puts format_footer(CAMPUS)
 
@@ -88,7 +97,7 @@ end
 def run
   # We want our program to print three articles by default,
   # but we can change that number here
-  print_newsletter(3)
+  print_newsletter("3")
 end
 
 # When we run "ruby newsletter.rb" in the command line,
